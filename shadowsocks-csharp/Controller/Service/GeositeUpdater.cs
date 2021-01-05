@@ -35,8 +35,8 @@ namespace Shadowsocks.Controller
 
         private static readonly string DATABASE_PATH = Utils.GetTempPath("dlc.dat");
 
-        private static readonly string GEOSITE_URL = "https://github.com/v2fly/domain-list-community/raw/release/dlc.dat";
-        private static readonly string GEOSITE_SHA256SUM_URL = "https://github.com/v2fly/domain-list-community/raw/release/dlc.dat.sha256sum";
+        private static readonly string GEOSITE_URL = "https://github.com/funny-fury/domain-list-community/raw/release/dlc.dat";
+        private static readonly string GEOSITE_SHA256SUM_URL = "https://github.com/funny-fury/domain-list-community/raw/release/dlc.dat.sha256sum";
         private static byte[] geositeDB;
 
         public static readonly Dictionary<string, IList<DomainObject>> Geosites = new Dictionary<string, IList<DomainObject>>();
@@ -80,7 +80,8 @@ namespace Shadowsocks.Controller
             var geositeVerifySha256 = true;
             var geositeSha256sum = "";
             var mySHA256 = SHA256.Create();
-            var config = Program.MainController.GetCurrentConfiguration();
+            // var config = Program.MainController.GetCurrentConfiguration();
+            var config = Configuration.Load();
             var blacklist = config.geositePreferDirect;
             var httpClient = Program.MainController.GetHttpClient();
 
@@ -113,8 +114,8 @@ namespace Shadowsocks.Controller
                     // if already latest
                     if (geositeSha256sum == localDBHash)
                     {
-                        logger.Info("Local GeoSite DB is up to date.");
-                        return;
+                        logger.Info("Local GeoSite DB is up to date. But always update pac.txt");
+                        // return;
                     }
                 }
 
